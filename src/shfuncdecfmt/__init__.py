@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from argparse import ArgumentParser
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -33,7 +34,11 @@ def main() -> int:
     for file in args.files:
         content = file.read_text()
 
-        new_content = content
+        new_content = re.sub(
+            r"(function\s*)?([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:\(\s*\))?\s*\{",
+            r"\2() {",
+            content,
+        )
 
         if new_content != content:
             file.write_text(new_content)
