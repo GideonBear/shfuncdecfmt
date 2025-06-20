@@ -35,9 +35,10 @@ def main() -> int:
         content = file.read_text()
 
         new_content = re.sub(
-            r"(function\s*)?([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:\(\s*\))?\s*\{",
-            r"\2() {",
+            r"^(\s*)(function\s*)?([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:\(\s*\))?\s*\{",
+            r"\1\3() {",
             content,
+            flags=re.MULTILINE,
         )
 
         if new_content != content:
